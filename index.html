@@ -80,7 +80,16 @@ body.dark-mode .toggle-glow {
     <h1 id="profile-name" class="text-3xl font-bold text-white mb-3 drop-shadow-lg" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">Damoko</h1>
     <p id="profile-desc" class="text-base text-white/95 mb-6 leading-relaxed font-medium" style="text-shadow: 1px 1px 6px rgba(0,0,0,0.9);">Salut moi c'est <b class="text-amber-300">Damoko</b>,<br>
       un youtubeur et joueur Minecraft !</p>
-    <div class="space-y-3"><a href="https://www.youtube.com/@damoko_off" target="_blank" rel="noopener noreferrer" class="block bg-white/25 backdrop-blur-sm text-white font-semibold py-4 px-6 rounded-xl hover:bg-white/40 hover:scale-105 transition-all duration-300 shadow-lg border border-white/30" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.7);"> 📺 Chaîne YouTube </a>
+    <div class="space-y-3"><a href="https://www.youtube.com/@damoko_off" target="_blank" rel="noopener noreferrer" class="block bg-white/25 backdrop-blur-sm text-white font-semibold py-4 px-6 rounded-xl hover:bg-white/40 hover:scale-105 transition-all duration-300 shadow-lg border border-white/30" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.7);"> 📺 Chaîne YouTube </a> <button onclick="openDiscordModal()" class="w-full bg-white/25 backdrop-blur-sm text-white font-semibold py-4 px-6 rounded-xl hover:bg-white/40 hover:scale-105 transition-all duration-300 shadow-lg border border-white/30" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.7);"> 💬 Discord </button>
+    </div>
+   </div><!-- Modal Discord -->
+   <div id="discord-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4" onclick="closeDiscordModal(event)">
+    <div class="bg-black/60 backdrop-blur-xl p-8 rounded-3xl max-w-md w-full text-center shadow-2xl border border-white/30 transform transition-all" onclick="event.stopPropagation()">
+     <div class="text-6xl mb-4">
+      💬
+     </div>
+     <h2 class="text-2xl font-bold text-white mb-4" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">Discord</h2>
+     <p class="text-lg text-white/95 mb-6 font-medium" style="text-shadow: 1px 1px 6px rgba(0,0,0,0.9);">Mon discord est : <span class="text-indigo-300 font-bold">damoko_off</span></p><button onclick="closeDiscordModal(event)" class="bg-white/25 backdrop-blur-sm text-white font-semibold py-3 px-8 rounded-xl hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/30"> Fermer </button>
     </div>
    </div>
   </div>
@@ -92,6 +101,23 @@ const defaultConfig = {
 
 let config = { ...defaultConfig };
 let isDay = true;
+
+function openDiscordModal() {
+  const modal = document.getElementById('discord-modal');
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+}
+
+function closeDiscordModal(event) {
+  event.stopPropagation();
+  const modal = document.getElementById('discord-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+}
 
 function toggleTheme() {
   const body = document.body;
@@ -156,5 +182,5 @@ if (window.elementSdk) {
   });
 }
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c720d0916099a5c',t:'MTc2OTk1NTIyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c72135f34fd9a5c',t:'MTc2OTk1NTQ4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
