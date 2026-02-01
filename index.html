@@ -1,175 +1,161 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="UTF-8">
-<title>Bio Damoko</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<style>
+<!doctype html>
+<html lang="fr" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <title>Bio Damoko</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+body {
+  box-sizing: border-box;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+html, body {
+  height: 100%;
 }
 
 /* Body */
 body {
-  min-height: 100vh;
-  background: url('https://i.imgur.com/DSl7y8j.jpeg') no-repeat center center fixed; /* Image jour par défaut */
+  background: url('https://i.imgur.com/DSl7y8j.jpeg') no-repeat center center fixed;
   background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  transition: background 0.8s ease, color 0.8s ease;
-  position: relative;
+  transition: background 0.8s ease;
 }
 
 /* Dark Mode */
 body.dark-mode {
-  background: url('https://i.imgur.com/jqNCobK.jpeg') no-repeat center center fixed; /* Image nuit */
+  background: url('https://i.imgur.com/jqNCobK.jpeg') no-repeat center center fixed;
   background-size: cover;
-  color: #fff;
 }
 
-/* Bio card transparent avec flou */
-.bio {
-  background: rgba(0, 0, 0, 0.4); /* semi-transparent pour voir le fond */
-  padding: 25px;
-  border-radius: 20px;
-  width: 340px;
-  text-align: center;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 0 30px rgba(0,0,0,0.4);
-  transition: background 0.8s, color 0.8s;
-}
-
-body.dark-mode .bio {
-  background: rgba(0, 0, 0, 0.4); /* même transparence pour le mode nuit */
-  color: #fff;
-}
-
-/* Header image */
-.header-img {
-  width: 100%;
-  border-radius: 15px;
-  margin-bottom: 15px;
-}
-
-/* Text */
-h1 {
-  font-size: 22px;
-  margin-bottom: 10px;
-}
-
-.desc {
-  font-size: 14px;
-  margin-bottom: 20px;
-  line-height: 1.4;
-}
-
-/* Links */
-.links a {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  background: rgba(255,255,255,0.15); /* semi-transparent pour voir le fond */
-  padding: 10px;
-  border-radius: 10px;
-  margin: 8px 0;
-  transition: 0.2s;
-}
-
-body.dark-mode .links a {
-  background: rgba(255,255,255,0.15); /* identique en mode nuit */
-}
-
-.links a:hover {
-  background: rgba(255,255,255,0.35);
-  transform: scale(1.03);
-}
-
-/* Toggle Button Container */
-.toggle-container {
-  position: absolute;
-  bottom: -80px; /* en dessous de la bio */
-  left: 50%;
-  transform: translateX(-50%);
-}
-
-/* Toggle Button */
-.toggle-button {
-  width: 100px;
-  height: 50px;
-  background: rgba(255,255,255,0.3); /* semi-transparent */
-  border-radius: 25px;
-  position: relative;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 5px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  transition: background 0.3s;
-}
-
-body.dark-mode .toggle-button {
-  background: rgba(0,0,0,0.3);
-}
-
-/* Toggle circle */
+/* Toggle circle animation */
 .toggle-circle {
-  width: 40px;
-  height: 40px;
-  background: #fff;
-  border-radius: 50%;
-  position: absolute;
-  left: 5px;
-  transition: transform 0.5s ease, background 0.5s ease;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* Glow effect for toggle button */
+.toggle-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 193, 7, 0.5), 0 0 40px rgba(255, 193, 7, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 193, 7, 0.8), 0 0 60px rgba(255, 193, 7, 0.5);
+  }
+}
+
+body.dark-mode .toggle-glow {
+  animation: pulse-glow-night 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow-night {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.5), 0 0 40px rgba(99, 102, 241, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.8), 0 0 60px rgba(99, 102, 241, 0.5);
+  }
 }
 </style>
-</head>
-<body>
-
-<!-- Bio card -->
-<div class="bio">
-  <img src="https://i.imgur.com/KAlQ1zn.png" alt="header" class="header-img" >
-  <h1>Damoko</h1>
-  <div class="desc">
-    Salut moi c'est <b>Damoko</b>,<br> un youtubeur et joueur Minecraft !
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div class="h-full w-full flex flex-col items-center justify-center p-4 overflow-auto"><!-- Toggle Button - En haut de page -->
+   <div class="mb-8 flex flex-col items-center">
+    <p class="text-white font-bold text-sm mb-3 uppercase tracking-wider" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.9);">🌓 Mode d'affichage</p><button id="toggle-button" onclick="toggleTheme()" class="toggle-glow relative w-28 h-14 rounded-full cursor-pointer flex items-center p-1.5 transition-all duration-500 border-2 border-white/50 hover:scale-110" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);" aria-label="Basculer entre mode jour et nuit"> <!-- Icons dans le toggle --> <span class="absolute left-3 text-xl">☀️</span> <span class="absolute right-3 text-xl">🌙</span> <!-- Toggle circle -->
+     <div id="toggle-circle" class="toggle-circle w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center text-2xl z-10">
+      ☀️
+     </div></button>
+   </div><!-- Bio card -->
+   <div class="bg-black/50 backdrop-blur-xl p-8 rounded-3xl w-full max-w-sm text-center shadow-2xl border border-white/20"><img src="https://i.imgur.com/KAlQ1zn.png" alt="header" class="w-full rounded-2xl mb-5 shadow-lg" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='#374151'; this.alt='Image unavailable';">
+    <h1 id="profile-name" class="text-3xl font-bold text-white mb-3 drop-shadow-lg" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">Damoko</h1>
+    <p id="profile-desc" class="text-base text-white/95 mb-6 leading-relaxed font-medium" style="text-shadow: 1px 1px 6px rgba(0,0,0,0.9);">Salut moi c'est <b class="text-amber-300">Damoko</b>,<br>
+      un youtubeur et joueur Minecraft !</p>
+    <div class="space-y-3"><a href="https://www.youtube.com/@damoko_off" target="_blank" rel="noopener noreferrer" class="block bg-white/25 backdrop-blur-sm text-white font-semibold py-4 px-6 rounded-xl hover:bg-white/40 hover:scale-105 transition-all duration-300 shadow-lg border border-white/30" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.7);"> 📺 Chaîne YouTube </a>
+    </div>
+   </div>
   </div>
-  <div class="links">
-    <a href="https://www.youtube.com/@damoko_off" target="_blank"> 📺 Chaîne YouTube </a>
-  </div>
-</div>
+  <script>
+const defaultConfig = {
+  profile_name: "Damoko",
+  profile_description: "Salut moi c'est <b class=\"text-amber-300\">Damoko</b>,<br> un youtubeur et joueur Minecraft !"
+};
 
-<!-- Toggle Button -->
-<div class="toggle-container">
-  <div class="toggle-button" onclick="toggleTheme()">
-    <div class="toggle-circle"></div>
-  </div>
-</div>
+let config = { ...defaultConfig };
+let isDay = true;
 
-<script>
-let isDay = true; // Image jour par défaut
 function toggleTheme() {
-    const body = document.body;
-    const toggleCircle = document.querySelector('.toggle-circle');
+  const body = document.body;
+  const toggleCircle = document.getElementById('toggle-circle');
+  const toggleButton = document.getElementById('toggle-button');
 
-    if(isDay){
-        // Mode nuit
-        body.classList.add('dark-mode');
-        toggleCircle.style.transform = 'translateX(50px)';
-    } else {
-        // Mode jour
-        body.classList.remove('dark-mode');
-        toggleCircle.style.transform = 'translateX(0)';
-    }
+  if (isDay) {
+    // Mode nuit
+    body.classList.add('dark-mode');
+    toggleCircle.style.transform = 'translateX(56px)';
+    toggleCircle.innerHTML = '🌙';
+    toggleButton.style.background = 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)';
+  } else {
+    // Mode jour
+    body.classList.remove('dark-mode');
+    toggleCircle.style.transform = 'translateX(0)';
+    toggleCircle.innerHTML = '☀️';
+    toggleButton.style.background = 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)';
+  }
 
-    isDay = !isDay;
+  isDay = !isDay;
+}
+
+async function onConfigChange(newConfig) {
+  config = { ...config, ...newConfig };
+  
+  const nameEl = document.getElementById('profile-name');
+  const descEl = document.getElementById('profile-desc');
+  
+  if (nameEl) {
+    nameEl.textContent = config.profile_name || defaultConfig.profile_name;
+  }
+  
+  if (descEl) {
+    descEl.innerHTML = config.profile_description || defaultConfig.profile_description;
+  }
+}
+
+function mapToCapabilities(config) {
+  return {
+    recolorables: [],
+    borderables: [],
+    fontEditable: undefined,
+    fontSizeable: undefined
+  };
+}
+
+function mapToEditPanelValues(config) {
+  return new Map([
+    ["profile_name", config.profile_name || defaultConfig.profile_name],
+    ["profile_description", config.profile_description || defaultConfig.profile_description]
+  ]);
+}
+
+// Initialize SDK
+if (window.elementSdk) {
+  window.elementSdk.init({
+    defaultConfig,
+    onConfigChange,
+    mapToCapabilities,
+    mapToEditPanelValues
+  });
 }
 </script>
-
-</body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c72080df7999a5c',t:'MTc2OTk1NTAxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
