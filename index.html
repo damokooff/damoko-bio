@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Bio Damoko</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Body */
+body {
+  min-height: 100vh;
+  background: url('https://i.imgur.com/DSl7y8j.jpeg') no-repeat center center fixed; /* Image jour par défaut */
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  transition: background 0.8s ease, color 0.8s ease;
+  position: relative;
+}
+
+/* Dark Mode */
+body.dark-mode {
+  background: url('https://i.imgur.com/jqNCobK.jpeg') no-repeat center center fixed; /* Image nuit */
+  background-size: cover;
+  color: #fff;
+}
+
+/* Bio card transparent avec flou */
+.bio {
+  background: rgba(0, 0, 0, 0.4); /* semi-transparent pour voir le fond */
+  padding: 25px;
+  border-radius: 20px;
+  width: 340px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 30px rgba(0,0,0,0.4);
+  transition: background 0.8s, color 0.8s;
+}
+
+body.dark-mode .bio {
+  background: rgba(0, 0, 0, 0.4); /* même transparence pour le mode nuit */
+  color: #fff;
+}
+
+/* Header image */
+.header-img {
+  width: 100%;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+/* Text */
+h1 {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.desc {
+  font-size: 14px;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+/* Links */
+.links a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: rgba(255,255,255,0.15); /* semi-transparent pour voir le fond */
+  padding: 10px;
+  border-radius: 10px;
+  margin: 8px 0;
+  transition: 0.2s;
+}
+
+body.dark-mode .links a {
+  background: rgba(255,255,255,0.15); /* identique en mode nuit */
+}
+
+.links a:hover {
+  background: rgba(255,255,255,0.35);
+  transform: scale(1.03);
+}
+
+/* Toggle Button Container */
+.toggle-container {
+  position: absolute;
+  bottom: -80px; /* en dessous de la bio */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Toggle Button */
+.toggle-button {
+  width: 100px;
+  height: 50px;
+  background: rgba(255,255,255,0.3); /* semi-transparent */
+  border-radius: 25px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 5px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: background 0.3s;
+}
+
+body.dark-mode .toggle-button {
+  background: rgba(0,0,0,0.3);
+}
+
+/* Toggle circle */
+.toggle-circle {
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  left: 5px;
+  transition: transform 0.5s ease, background 0.5s ease;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+</style>
+</head>
+<body>
+
+<!-- Bio card -->
+<div class="bio">
+  <img src="https://i.imgur.com/KAlQ1zn.png" alt="header" class="header-img" >
+  <h1>Damoko</h1>
+  <div class="desc">
+    Salut moi c'est <b>Damoko</b>,<br> un youtubeur et joueur Minecraft !
+  </div>
+  <div class="links">
+    <a href="https://www.youtube.com/@damoko_off" target="_blank"> 📺 Chaîne YouTube </a>
+  </div>
+</div>
+
+<!-- Toggle Button -->
+<div class="toggle-container">
+  <div class="toggle-button" onclick="toggleTheme()">
+    <div class="toggle-circle"></div>
+  </div>
+</div>
+
+<script>
+let isDay = true; // Image jour par défaut
+function toggleTheme() {
+    const body = document.body;
+    const toggleCircle = document.querySelector('.toggle-circle');
+
+    if(isDay){
+        // Mode nuit
+        body.classList.add('dark-mode');
+        toggleCircle.style.transform = 'translateX(50px)';
+    } else {
+        // Mode jour
+        body.classList.remove('dark-mode');
+        toggleCircle.style.transform = 'translateX(0)';
+    }
+
+    isDay = !isDay;
+}
+</script>
+
+</body>
+</html>
