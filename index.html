@@ -71,9 +71,8 @@ body.dark-mode .toggle-glow {
  </head>
  <body class="h-full">
   <div class="h-full w-full flex flex-col items-center justify-center p-4 overflow-auto"><!-- Toggle Button - En haut de page -->
-   <div class="mb-8 flex flex-col items-center">
-    <p class="text-white font-bold text-sm mb-3 uppercase tracking-wider" style="text-shadow: 2px 2px 6px rgba(0,0,0,0.9);">🌓 Mode d'affichage</p><button id="toggle-button" onclick="toggleTheme()" class="toggle-glow relative w-28 h-14 rounded-full cursor-pointer flex items-center p-1.5 transition-all duration-500 border-2 border-white/50 hover:scale-110" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);" aria-label="Basculer entre mode jour et nuit"> <!-- Icons dans le toggle --> <span class="absolute left-3 text-xl">☀️</span> <span class="absolute right-3 text-xl">🌙</span> <!-- Toggle circle -->
-     <div id="toggle-circle" class="toggle-circle w-10 h-10 bg-white rounded-full shadow-xl flex items-center justify-center text-2xl z-10">
+   <div class="mb-6"><button id="toggle-button" onclick="toggleTheme()" class="toggle-glow relative w-16 h-8 rounded-full cursor-pointer flex items-center p-0.5 transition-all duration-500 border border-white/50 hover:scale-110" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);" aria-label="Basculer entre mode jour et nuit"> <!-- Icons dans le toggle --> <span class="absolute left-1.5 text-sm">☀️</span> <span class="absolute right-1.5 text-sm">🌙</span> <!-- Toggle circle -->
+     <div id="toggle-circle" class="toggle-circle w-7 h-7 bg-white rounded-full shadow-xl flex items-center justify-center text-sm z-10">
       ☀️
      </div></button>
    </div><!-- Bio card -->
@@ -102,7 +101,7 @@ function toggleTheme() {
   if (isDay) {
     // Mode nuit
     body.classList.add('dark-mode');
-    toggleCircle.style.transform = 'translateX(56px)';
+    toggleCircle.style.transform = 'translateX(32px)';
     toggleCircle.innerHTML = '🌙';
     toggleButton.style.background = 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)';
   } else {
@@ -157,5 +156,5 @@ if (window.elementSdk) {
   });
 }
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c72080df7999a5c',t:'MTc2OTk1NTAxOC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c720d0916099a5c',t:'MTc2OTk1NTIyMi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
