@@ -19,6 +19,7 @@ body {
 
 html, body {
   height: 100%;
+  overflow: hidden;
 }
 
 /* Body */
@@ -84,12 +85,15 @@ body.dark-mode .toggle-glow {
     </div>
    </div><!-- Modal Discord -->
    <div id="discord-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4" onclick="closeDiscordModal(event)">
-    <div class="bg-black/60 backdrop-blur-xl p-8 rounded-3xl max-w-md w-full text-center shadow-2xl border border-white/30 transform transition-all" onclick="event.stopPropagation()">
+    <div class="bg-black/60 backdrop-blur-xl p-8 rounded-3xl max-w-md w-full text-center shadow-2xl border border-white/30 transform transition-all relative" onclick="event.stopPropagation()">
      <div class="text-6xl mb-4">
       💬
      </div>
      <h2 class="text-2xl font-bold text-white mb-4" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">Discord</h2>
-     <p class="text-lg text-white/95 mb-6 font-medium" style="text-shadow: 1px 1px 6px rgba(0,0,0,0.9);">Mon discord est : <span class="text-indigo-300 font-bold">damoko_off</span></p><button onclick="closeDiscordModal(event)" class="bg-white/25 backdrop-blur-sm text-white font-semibold py-3 px-8 rounded-xl hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/30"> Fermer </button>
+     <p class="text-lg text-white/95 mb-6 font-medium" style="text-shadow: 1px 1px 6px rgba(0,0,0,0.9);">Mon discord est : <span class="text-indigo-300 font-bold cursor-pointer hover:text-indigo-200 transition-colors" onclick="copyDiscord(event)">damoko_off</span></p><!-- Toast de confirmation de copie -->
+     <div id="copy-toast" class="hidden absolute top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-xl font-semibold">
+      ✓ Copié !
+     </div><button onclick="closeDiscordModal(event)" class="bg-white/25 backdrop-blur-sm text-white font-semibold py-3 px-8 rounded-xl hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/30"> Fermer </button>
     </div>
    </div>
   </div>
@@ -101,6 +105,26 @@ const defaultConfig = {
 
 let config = { ...defaultConfig };
 let isDay = true;
+
+function copyDiscord(event) {
+  event.stopPropagation();
+  
+  // Copier dans le presse-papier
+  navigator.clipboard.writeText('damoko_off').then(() => {
+    // Afficher le toast
+    const toast = document.getElementById('copy-toast');
+    if (toast) {
+      toast.classList.remove('hidden');
+      
+      // Masquer après 2 secondes
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 2000);
+    }
+  }).catch(err => {
+    console.error('Erreur lors de la copie:', err);
+  });
+}
 
 function openDiscordModal() {
   const modal = document.getElementById('discord-modal');
@@ -182,5 +206,5 @@ if (window.elementSdk) {
   });
 }
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c72135f34fd9a5c',t:'MTc2OTk1NTQ4MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c721789339e9a5c',t:'MTc2OTk1NTY1Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
