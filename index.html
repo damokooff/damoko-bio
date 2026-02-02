@@ -1,218 +1,193 @@
 <!doctype html>
 <html lang="fr" class="h-full">
- <head>
+<head>
   <meta charset="UTF-8">
   <title>Bio Damoko</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="/_sdk/element_sdk.js"></script>
+
   <style>
-body {
-  box-sizing: border-box;
-}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
 
-html, body {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  position: fixed;
-  top: 0;
-  left: 0;
-}
+    body {
+      background: url('https://i.imgur.com/DSl7y8j.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      transition: background 0.8s ease;
+    }
 
-/* Body */
-body {
-  background: url('https://i.imgur.com/DSl7y8j.jpeg') no-repeat center center fixed;
-  background-size: cover;
-  transition: background 0.8s ease;
-}
+    body.dark-mode {
+      background: url('https://i.imgur.com/jqNCobK.jpeg') no-repeat center center fixed;
+      background-size: cover;
+    }
 
-/* Dark Mode */
-body.dark-mode {
-  background: url('https://i.imgur.com/jqNCobK.jpeg') no-repeat center center fixed;
-  background-size: cover;
-}
+    .toggle-circle {
+      transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
 
-/* Toggle circle animation */
-.toggle-circle {
-  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
+    .toggle-glow {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
 
-/* Glow effect for toggle button */
-.toggle-glow {
-  animation: pulse-glow 2s ease-in-out infinite;
-}
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(255,193,7,.5), 0 0 40px rgba(255,193,7,.3);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(255,193,7,.8), 0 0 60px rgba(255,193,7,.5);
+      }
+    }
 
-@keyframes pulse-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(255, 193, 7, 0.5), 0 0 40px rgba(255, 193, 7, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(255, 193, 7, 0.8), 0 0 60px rgba(255, 193, 7, 0.5);
-  }
-}
+    body.dark-mode .toggle-glow {
+      animation: pulse-glow-night 2s ease-in-out infinite;
+    }
 
-body.dark-mode .toggle-glow {
-  animation: pulse-glow-night 2s ease-in-out infinite;
-}
+    @keyframes pulse-glow-night {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(99,102,240,.5), 0 0 40px rgba(99,102,240,.3);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(99,102,240,.8), 0 0 60px rgba(99,102,240,.5);
+      }
+    }
+  </style>
+</head>
 
-@keyframes pulse-glow-night {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(99, 102, 240, 0.5), 00 40px rgba(99, 102, 240, 0.3);
-  }
-  50% {
-    box-shadow: 0 0 30px rgba(99, 102, 240, 0.8), 0 0 60px rgba(99, 102, 240, 0.5);
-  }
-}
-</style>
-  <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
- </head>
- <body class="h-full">
-  <div class="h-full w-full flex flex-col items-center justify-center p-4 overflow-auto"><!-- Toggle Button -->
-   <div class="mb-6"><button id="toggle-button" onclick="toggleTheme()" class="toggle-glow relative w-16 h-8 rounded-full cursor-pointer flex items-center p-0.5 transition-all duration-500 border border-white/50 hover:scale-110" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);" aria-label="Basculer entre mode jour et nuit"> <!-- Icons dans le toggle --> <span class="absolute left-1.5 text-sm">☀</span> <span class="absolute right-1.5 text-sm">🌙</span> <!-- Toggle circle -->
-     <div id="toggle-circle" class="toggle-circle w-7 h-7 bg-white rounded-full shadow-xl flex items-center justify-center text-sm z-10">
-      ☀
-     </div></button>
-   </div><!-- Bio card -->
-   <div class="bg-black/50 backdrop-blur-xl p-4 rounded-3xl w-full max-w-md h-[88%] flex flex-col justify-center text-center shadow-2xl border border-white/20 overflow-y-auto"><img src="https://i.imgur.com/KAlQ1zn.png" alt="header" class="w-full rounded-2xl mb-2.5 shadow-lg" loading="lazy" onerror="console.error('Image failed to load:', this.src); this.style.background='#374151'; this.alt='Image unavailable';">
-    <h1 id="profile-name" class="text-xl font-bold text-white mb-1.5 drop-shadow-lg" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">Damoko</h1>
-    <p id="profile-desc" class="text-xs text-white/95 mb-3 leading-relaxed font-medium" style="text-shadow: 1px 1px 6px rgba(0,0,0,0.9);">Salut moi c'est <b class="text-amber-300">Damoko</b>,<br>
-      un youtubeur et joueur Minecraft !</p>
-    <div class="space-y-2"><a href="https://www.youtube.com/@damoko_off" target="_blank" rel="noopener noreferrer" class="block bg-white/25 backdrop-blur-sm text-white font-semibold text-xs py-2 px-4 rounded-xl hover:bg-white/40 hover:scale-105 transition-all duration-300 shadow-lg border border-white/30" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.7);"> 📺 Chaîne YouTube </a> <button onclick="openDiscordModal()" class="w-full bg-white/25 backdrop-blur-sm text-white font-semibold text-xs py-2 px-4 rounded-xl hover:bg-white/40 hover:scale-105 transition-all duration-300 shadow-lg border border-white/30" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.7);"> 💬 Discord </button>
+<body class="h-full">
+  <div class="h-full w-full flex flex-col items-center justify-center p-4">
+
+    <!-- Toggle -->
+    <div class="mb-6">
+      <button id="toggle-button" onclick="toggleTheme()"
+        class="toggle-glow relative w-16 h-8 rounded-full flex items-center p-0.5 border border-white/50 transition-all duration-500 hover:scale-110"
+        style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);">
+        <span class="absolute left-1.5 text-sm">☀</span>
+        <span class="absolute right-1.5 text-sm">🌙</span>
+
+        <div id="toggle-circle"
+          class="toggle-circle w-7 h-7 bg-white rounded-full shadow-xl flex items-center justify-center text-sm z-10">
+          ☀
+        </div>
+      </button>
     </div>
-   </div><!-- Modal Discord -->
-   <div id="discord-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4" onclick="closeDiscordModal(event)">
-    <div class="bg-black/60 backdrop-blur-xl p-8 rounded-3xl max-w-md w-full text-center shadow-2xl border border-white/30 transform transition-all relative" onclick="event.stopPropagation()">
-     <div class="text-6xl mb-4">
-      💬
-     </div>
-     <h2 class="text-2xl font-bold text-white mb-4" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">Discord</h2>
-     <p class="text-lg text-white/95 mb-6 font-medium" style="text-shadow: 1px 1px 6px rgba(0,0,0,0.9);">Mon discord est : <span class="text-indigo-300 font-bold cursor-pointer hover:text-indigo-200 transition-colors" onclick="copyDiscord(event)">damoko_off</span></p><!-- Toast de confirmation de copie -->
-     <div id="copy-toast" class="hidden absolute top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-xl font-semibold">
-      ✓ Copié !
-     </div><button onclick="closeDiscordModal(event)" class="bg-white/25 backdrop-blur-sm text-white font-semibold py-3 px-8 rounded-xl hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/30"> Fermer </button>
+
+    <!-- CARTE PROFIL (SANS SCROLL) -->
+    <div
+      class="bg-black/50 backdrop-blur-xl p-4 rounded-3xl w-full max-w-md flex flex-col justify-center text-center shadow-2xl border border-white/20">
+
+      <img src="https://i.imgur.com/KAlQ1zn.png"
+        class="w-full rounded-2xl mb-2.5 shadow-lg"
+        alt="header">
+
+      <h1 class="text-xl font-bold text-white mb-1.5 drop-shadow-lg">
+        Damoko
+      </h1>
+
+      <p class="text-xs text-white/95 mb-3 font-medium">
+        Salut moi c'est <b class="text-amber-300">Damoko</b>,<br>
+        un youtubeur et joueur Minecraft !
+      </p>
+
+      <div class="space-y-2">
+        <a href="https://www.youtube.com/@damoko_off" target="_blank"
+          class="block bg-white/25 text-white font-semibold text-xs py-2 px-4 rounded-xl hover:bg-white/40 hover:scale-105 transition-all shadow-lg border border-white/30">
+          📺 Chaîne YouTube
+        </a>
+
+        <button onclick="openDiscordModal()"
+          class="w-full bg-white/25 text-white font-semibold text-xs py-2 px-4 rounded-xl hover:bg-white/40 hover:scale-105 transition-all shadow-lg border border-white/30">
+          💬 Discord
+        </button>
+      </div>
     </div>
-   </div>
+
+    <!-- MODAL DISCORD -->
+    <div id="discord-modal"
+      class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50 p-4"
+      onclick="closeDiscordModal(event)">
+
+      <div class="bg-black/60 p-8 rounded-3xl max-w-md w-full text-center border border-white/30"
+        onclick="event.stopPropagation()">
+
+        <div class="text-6xl mb-4">💬</div>
+
+        <h2 class="text-2xl font-bold text-white mb-4">Discord</h2>
+
+        <p class="text-lg text-white mb-6">
+          Mon discord est :
+          <span class="text-indigo-300 font-bold cursor-pointer"
+            onclick="copyDiscord(event)">damoko_off</span>
+        </p>
+
+        <div id="copy-toast"
+          class="hidden absolute top-4 left-1/2 -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg font-semibold">
+          ✓ Copié !
+        </div>
+
+        <button onclick="closeDiscordModal(event)"
+          class="bg-white/25 text-white font-semibold py-3 px-8 rounded-xl hover:bg-white/40 transition-all border border-white/30">
+          Fermer
+        </button>
+      </div>
+    </div>
+
   </div>
+
   <script>
-const defaultConfig = {
-  profile_name: "Damoko",
-  profile_description: "Salut moi c'est <b class=\"text-amber-300\">Damoko</b>,<br> un youtubeur et joueur Minecraft !"
-};
+    let isDay = true;
 
-let config = { ...defaultConfig };
-let isDay = true;
+    function toggleTheme() {
+      const body = document.body;
+      const circle = document.getElementById('toggle-circle');
+      const btn = document.getElementById('toggle-button');
 
-function copyDiscord(event) {
-  event.stopPropagation();
-  
-  navigator.clipboard.writeText('damoko_off').then(() => {
-    const toast = document.getElementById('copy-toast');
-    if (toast) {
+      isDay = !isDay;
+
+      if (!isDay) {
+        body.classList.add('dark-mode');
+        circle.style.transform = 'translateX(32px)';
+        circle.textContent = '🌙';
+        btn.style.background = 'linear-gradient(135deg, #6366f1, #4f46e5)';
+      } else {
+        body.classList.remove('dark-mode');
+        circle.style.transform = 'translateX(0)';
+        circle.textContent = '☀';
+        btn.style.background = 'linear-gradient(135deg, #fbbf24, #f59e0b)';
+      }
+    }
+
+    function openDiscordModal() {
+      document.getElementById('discord-modal').classList.remove('hidden');
+      document.getElementById('discord-modal').classList.add('flex');
+    }
+
+    function closeDiscordModal(e) {
+      e.stopPropagation();
+      document.getElementById('discord-modal').classList.add('hidden');
+      document.getElementById('discord-modal').classList.remove('flex');
+    }
+
+    function copyDiscord(e) {
+      e.stopPropagation();
+      navigator.clipboard.writeText('damoko_off');
+      const toast = document.getElementById('copy-toast');
       toast.classList.remove('hidden');
-      setTimeout(() => {
-        toast.classList.add('hidden');
-      }, 2000);
+      setTimeout(() => toast.classList.add('hidden'), 2000);
     }
-  }).catch(err => {
-    console.error('Erreur lors de la copie:', err);
-  });
-}
-
-function openDiscordModal() {
-  const modal = document.getElementById('discord-modal');
-  if (modal) {
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-  }
-}
-
-function closeDiscordModal(event) {
-  event.stopPropagation();
-  const modal = document.getElementById('discord-modal');
-  if (modal) {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-  }
-}
-
-function toggleTheme() {
-  const body = document.body;
-  const toggleCircle = document.getElementById('toggle-circle');
-  const toggleButton = document.getElementById('toggle-button');
-
-  isDay = !isDay;
-
-  if (!isDay) {
-    // Mode nuit
-    body.classList.add('dark-mode');
-    if (toggleCircle) {
-      toggleCircle.style.transform = 'translateX(32px)';
-      toggleCircle.textContent = '🌙';
-    }
-    if (toggleButton) {
-      toggleButton.style.background = 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)';
-    }
-  } else {
-    // Mode jour
-    body.classList.remove('dark-mode');
-    if (toggleCircle) {
-      toggleCircle.style.transform = 'translateX(0)';
-      toggleCircle.textContent = '☀';
-    }
-    if (toggleButton) {
-      toggleButton.style.background = 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)';
-    }
-  }
-}
-
-async function onConfigChange(newConfig) {
-  config = { ...config, ...newConfig };
-  
-  const nameEl = document.getElementById('profile-name');
-  const descEl = document.getElementById('profile-desc');
-  
-  if (nameEl) {
-    nameEl.textContent = config.profile_name || defaultConfig.profile_name;
-  }
-  
-  if (descEl) {
-    descEl.innerHTML = config.profile_description || defaultConfig.profile_description;
-  }
-}
-
-function mapToCapabilities(config) {
-  return {
-    recolorables: [],
-    borderables: [],
-    fontEditable: undefined,
-    fontSizeable: undefined
-  };
-}
-
-function mapToEditPanelValues(config) {
-  return new Map([
-    ["profile_name", config.profile_name || defaultConfig.profile_name],
-    ["profile_description", config.profile_description || defaultConfig.profile_description]
-  ]);
-}
-
-// Initialize SDK
-if (window.elementSdk) {
-  window.elementSdk.init({
-    defaultConfig,
-    onConfigChange,
-    mapToCapabilities,
-    mapToEditPanelValues
-  });
-}
-</script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9c722d70259eb723',t:'MTc2OTk1NjU0OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+  </script>
+</body>
 </html>
