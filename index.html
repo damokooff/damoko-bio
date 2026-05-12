@@ -1,246 +1,811 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Damoko</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Damoko · SMP & Communauté</title>
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<style>
-html,body{
-  height:100%;
-  margin:0;
-  overflow:hidden;
-}
+    body {
+      background-color: #000000;
+      color: #eaeaea;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
 
-body{
-  background:url('https://i.imgur.com/DSl7y8j.jpeg') center/cover fixed;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transition: background 0.8s ease;
-}
+    /* NEON ACCENTS */
+    .neon-text {
+      text-shadow: 0 0 2px #0ff, 0 0 5px #0ff, 0 0 8px #00ffff66;
+    }
+    .btn-neon {
+      transition: all 0.2s ease;
+    }
+    .btn-neon:hover {
+      box-shadow: 0 0 8px #0ff, 0 0 12px #00ffff99;
+      text-shadow: 0 0 3px #0ff;
+      border-color: #0ff;
+    }
 
-/* Dark mode */
-body.dark-mode{
-  background:url('https://i.imgur.com/jqNCobK.jpeg') center/cover fixed;
-}
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+    }
 
-/* carte du jeu / bio */
-.game-card, .bio-card{
-  background:rgba(0,0,0,0.45);
-  backdrop-filter:blur(14px);
-  border-radius:24px;
-  padding:16px;
-  border:1px solid rgba(255,255,255,0.25);
-  box-shadow:0 25px 60px rgba(0,0,0,.6);
-}
+    h1 {
+      font-size: clamp(3rem, 9vw, 5.5rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #ffffff 70%, #aaaaaa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.75rem;
+    }
 
-/* canvas */
-canvas{
-  image-rendering:pixelated;
-  background:rgba(135,206,235,0.85);
-  border-radius:16px;
-}
+    h2 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
+      border-left: 4px solid #0ff;
+      padding-left: 1rem;
+      letter-spacing: -0.2px;
+      text-shadow: 0 0 3px rgba(0,255,255,0.3);
+    }
 
-/* leaderboard */
-#leaderboard{
-  margin-top:10px;
-  text-align:left;
-  font-size:12px;
-  color:white;
-  opacity:0.85;
-}
+    .section {
+      margin-bottom: 5rem;
+    }
 
-/* Toggle circle animation */
-.toggle-circle{
-  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-.toggle-glow{
-  animation: pulse-glow 2s ease-in-out infinite;
-}
-@keyframes pulse-glow{
-  0%,100%{ box-shadow:0 0 20px rgba(255,193,7,0.5),0 0 40px rgba(255,193,7,0.3);}
-  50%{ box-shadow:0 0 30px rgba(255,193,7,0.8),0 0 60px rgba(255,193,7,0.5);}
-}
-body.dark-mode .toggle-glow{
-  animation: pulse-glow-night 2s ease-in-out infinite;
-}
-@keyframes pulse-glow-night{
-  0%,100%{ box-shadow:0 0 20px rgba(99,102,240,0.5),0 0 40px rgba(99,102,240,0.3);}
-  50%{ box-shadow:0 0 30px rgba(99,102,240,0.8),0 0 60px rgba(99,102,240,0.5);}
-}
-</style>
+    /* Hero */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 3.5rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+    }
+
+    .hero-content {
+      flex: 1.2;
+    }
+
+    .hero-badge {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #0ff;
+      margin-bottom: 0.8rem;
+      font-weight: 500;
+      text-shadow: 0 0 2px cyan;
+    }
+
+    .hero-description {
+      font-size: 1.15rem;
+      margin: 1.2rem 0 1.8rem;
+      color: #cccccc;
+      max-width: 90%;
+      font-weight: 400;
+      border-left: 2px solid #2c2c2c;
+      padding-left: 1rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-item {
+      background: #0a0a0a;
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1px solid #2a2a2a;
+      transition: 0.2s;
+    }
+    .stat-item:hover {
+      border-color: #0ff;
+      box-shadow: 0 0 6px rgba(0,255,255,0.4);
+    }
+    .stat-number {
+      font-weight: 800;
+      color: #0ff;
+      margin-right: 0.3rem;
+      text-shadow: 0 0 2px cyan;
+    }
+
+    .hero-avatar {
+      flex: 0.5;
+      display: flex;
+      justify-content: center;
+    }
+
+    .avatar-frame {
+      background: #030303;
+      border-radius: 50%;
+      width: 200px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #0ff;
+      box-shadow: 0 0 15px rgba(0,255,255,0.5);
+      transition: all 0.2s ease;
+      overflow: hidden;
+    }
+    .avatar-frame:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 22px cyan;
+    }
+    .avatar-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.7rem 1.6rem;
+      border-radius: 60px;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      letter-spacing: 0.3px;
+      background: transparent;
+      border: 1px solid #3a3a3a;
+      color: #f0f0f0;
+    }
+    .btn-primary {
+      background: #0ff;
+      color: #000;
+      border: none;
+      font-weight: 700;
+      box-shadow: 0 0 6px cyan;
+    }
+    .btn-primary:hover {
+      background: #00e0e0;
+      box-shadow: 0 0 14px cyan;
+      transform: translateY(-2px);
+    }
+    .btn-outline {
+      border: 1px solid #3a3a3a;
+    }
+    .btn-outline:hover {
+      border-color: #0ff;
+      color: #0ff;
+      box-shadow: 0 0 8px rgba(0,255,255,0.4);
+      transform: translateY(-2px);
+    }
+    .btn-smp {
+      background: linear-gradient(135deg, #0ff1, #0ff);
+      border: none;
+      color: #000;
+      font-weight: 800;
+      box-shadow: 0 0 10px #0ff;
+    }
+    .btn-subscribe {
+      background: #ff0000;
+      color: white;
+      border: none;
+      box-shadow: 0 0 8px rgba(255,0,0,0.5);
+    }
+    .btn-subscribe:hover {
+      background: #cc0000;
+      box-shadow: 0 0 14px rgba(255,0,0,0.8);
+      transform: translateY(-2px);
+    }
+
+    /* Carte monde */
+    .world-card {
+      background: #090909;
+      border-radius: 28px;
+      padding: 2rem;
+      border: 1px solid #1f1f1f;
+      transition: 0.2s;
+      margin-bottom: 1rem;
+    }
+    .world-card:hover {
+      border-color: #0ff;
+      box-shadow: 0 0 12px rgba(0,255,255,0.2);
+    }
+    .card-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+    .date-chip {
+      font-size: 1rem;
+      background: #0ff10a;
+      border: 0.5px solid #0ff;
+      border-radius: 40px;
+      padding: 0.2rem 0.9rem;
+      font-weight: 500;
+      color: #0ff;
+    }
+    .highlight {
+      color: #0ff;
+      font-weight: 700;
+    }
+    .friend-tag {
+      background: #0ff10a;
+      border: 0.5px solid #0ff;
+      border-radius: 40px;
+      padding: 0.2rem 0.9rem;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #0ff;
+      display: inline-block;
+    }
+    .timeline-note {
+      margin-top: 1.2rem;
+      padding-top: 1rem;
+      border-top: 1px dashed #2c2c2c;
+      font-size: 0.95rem;
+      color: #bbbbbb;
+    }
+
+    /* Section SMP */
+    .smp-card {
+      background: #0a0a0a;
+      border-radius: 28px;
+      padding: 2rem;
+      border: 1px solid #0ff;
+      box-shadow: 0 0 12px rgba(0,255,255,0.2);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    .smp-text {
+      flex: 2;
+    }
+    .smp-text h3 {
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .smp-badge {
+      background: #0ff20;
+      border-radius: 30px;
+      padding: 0.2rem 0.8rem;
+      font-size: 0.7rem;
+      font-weight: bold;
+      color: #0ff;
+      display: inline-block;
+      border: 0.5px solid #0ff;
+    }
+
+    /* modal overlay */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(6px);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+    .modal-content {
+      background: #0c0c0c;
+      border: 1px solid #0ff;
+      border-radius: 32px;
+      max-width: 520px;
+      width: 100%;
+      padding: 2rem 1.8rem;
+      box-shadow: 0 0 40px rgba(0,255,255,0.3);
+      animation: fadeSlide 0.2s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(-12px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+    .modal-content h3 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+      color: #0ff;
+    }
+    .form-group {
+      margin-bottom: 1.3rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      margin-bottom: 0.4rem;
+      color: #ccc;
+      font-weight: 500;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      background: #111;
+      border: 1px solid #2c2c2c;
+      padding: 0.7rem 1rem;
+      border-radius: 40px;
+      color: white;
+      font-family: inherit;
+      outline: none;
+      transition: 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: #0ff;
+      box-shadow: 0 0 6px cyan;
+    }
+    .form-group textarea {
+      border-radius: 24px;
+      resize: vertical;
+    }
+    /* jours dispos */
+    .days-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+    .day-card {
+      background: #111;
+      border: 1px solid #2c2c2c;
+      border-radius: 28px;
+      padding: 0.6rem 0.8rem;
+      min-width: 85px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .day-card.selected {
+      border-color: #0ff;
+      background: #0ff20;
+      box-shadow: 0 0 8px cyan;
+    }
+    .day-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .time-input {
+      margin-top: 6px;
+    }
+    .time-input input {
+      width: 100%;
+      background: #000;
+      border: 1px solid #3a3a3a;
+      border-radius: 40px;
+      padding: 0.3rem 0.5rem;
+      font-size: 0.7rem;
+      text-align: center;
+      color: #0ff;
+    }
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+      margin-top: 1.8rem;
+    }
+    .close-modal {
+      background: transparent;
+      border: 1px solid #555;
+    }
+    .submit-btn {
+      background: #0ff;
+      color: black;
+      border: none;
+      font-weight: bold;
+    }
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .loader {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid black;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+      margin-right: 6px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Widget Discord */
+    .discord-widget-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+    .discord-widget-container iframe {
+      border-radius: 20px;
+      box-shadow: 0 0 18px rgba(0,255,255,0.2);
+      transition: 0.2s;
+    }
+    .discord-widget-container iframe:hover {
+      box-shadow: 0 0 24px cyan;
+    }
+
+    /* Video soon */
+    .video-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+    .soon-card {
+      background: #0b0b0b;
+      border-radius: 32px;
+      padding: 2rem 2rem;
+      text-align: center;
+      flex: 1;
+      min-width: 260px;
+      border: 1px solid #2a2a2a;
+      transition: 0.25s;
+    }
+    .soon-card:hover {
+      border-color: #0ff;
+      box-shadow: 0 0 20px rgba(0,255,255,0.15);
+      transform: translateY(-4px);
+    }
+    .soon-glow {
+      font-size: 2.2rem;
+      font-weight: 800;
+      letter-spacing: 4px;
+      color: #0ff;
+      text-shadow: 0 0 6px cyan;
+      margin-bottom: 0.5rem;
+    }
+    .soon-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+    .footer-note {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      text-align: center;
+      color: #5f5f5f;
+    }
+    .history-block {
+      background: #050505;
+      padding: 1.8rem;
+      border-radius: 24px;
+      border-left: 3px solid #0ff;
+      font-size: 1rem;
+      color: #ddd;
+    }
+    .footer {
+      border-top: 1px solid rgba(0,255,255,0.2);
+      margin-top: 3rem;
+      padding-top: 2rem;
+      text-align: center;
+      font-size: 0.75rem;
+      color: #6c6c6c;
+    }
+    @media (max-width: 750px) {
+      .container { padding: 1.5rem; }
+      .hero { flex-direction: column-reverse; text-align: center; }
+      .hero-description { max-width: 100%; text-align: left; }
+      .smp-card { flex-direction: column; text-align: center; }
+      .discord-widget-container iframe { width: 100%; max-width: 350px; height: 450px; }
+      .day-card { min-width: 70px; }
+    }
+    .copy-notify {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0ff;
+      color: black;
+      padding: 8px 18px;
+      border-radius: 60px;
+      font-weight: bold;
+      font-size: 0.8rem;
+      z-index: 1001;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+  </style>
 </head>
-
 <body>
-
-<!-- MENU -->
-<div id="menu" class="bg-black/60 backdrop-blur-xl p-6 rounded-3xl w-full max-w-md text-center text-white shadow-2xl border border-white/20">
-  <h1 class="text-2xl font-bold mb-4">Damoko</h1>
-  <p class="text-sm mb-6 opacity-90">Choisis ce que tu veux faire</p>
-
-  <div class="flex gap-4 justify-center mb-4">
-    <button onclick="openBio()" class="px-6 py-3 rounded-xl bg-emerald-600 hover:scale-105 transition font-bold">BIO</button>
-    <button onclick="openGame()" class="px-6 py-3 rounded-xl bg-indigo-600 hover:scale-105 transition font-bold">JEU</button>
+<div class="container">
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">✦ MONDE SURVIE → CRÉATIF · DUO ✦</div>
+      <h1>Damoko</h1>
+      <p class="hero-description">
+        Découverte de Minecraft en <span class="highlight">2018</span>. Aventure avec <span class="highlight">slayer_god104</span> débutée en <span class="highlight">novembre 2025</span> en survie légit.<br>
+        Depuis <span class="highlight">mars 2026</span>, ce monde est passé en mode <span class="highlight">créatif</span> pour des projets illimités.
+      </p>
+      <div class="hero-stats">
+        <div class="stat-item"><span class="stat-number">2018</span> découverte MC</div>
+        <div class="stat-item"><span class="stat-number">Nov. 2025</span> création monde</div>
+        <div class="stat-item"><span class="stat-number">Mars 2026</span> ✦ créatif</div>
+        <div class="stat-item"><span class="stat-number">👥</span> slayer_god104</div>
+      </div>
+      <div class="btn-group">
+        <a href="#" class="btn btn-primary btn-neon" id="youtubeMain">🎬 YouTube</a>
+        <a href="#" class="btn btn-outline btn-neon" id="discordMain">💬 Discord</a>
+        <a href="#" class="btn btn-subscribe" id="subscribeBtn">🔔 S'abonner</a>
+      </div>
+    </div>
+    <div class="hero-avatar">
+      <div class="avatar-frame">
+        <img src="https://i.imgur.com/KAlQ1zn.png" alt="Damoko avatar">
+      </div>
+    </div>
   </div>
 
-  <!-- Toggle Jour/Nuit -->
-  <div class="flex justify-center">
-    <button id="toggle-button" onclick="toggleTheme()" class="toggle-glow relative w-16 h-8 rounded-full cursor-pointer flex items-center p-0.5 transition-all duration-500 border border-white/50 hover:scale-110" style="background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);" aria-label="Basculer entre mode jour et nuit">
-      <span class="absolute left-1.5 text-sm">☀</span>
-      <span class="absolute right-1.5 text-sm">🌙</span>
-      <div id="toggle-circle" class="toggle-circle w-7 h-7 bg-white rounded-full shadow-xl flex items-center justify-center text-sm z-10">☀</div>
-    </button>
+  <!-- Monde -->
+  <div class="section">
+    <h2>🌌 évolution · survie → créatif</h2>
+    <div class="world-card">
+      <div class="card-title">⛏️ MONDE HISTORIQUE <span class="friend-tag">👫 slayer_god104</span></div>
+      <p><strong>Novembre 2025 – mars 2026 :</strong> survie légitime (farm, exploration, base commune).<br>
+      <strong>Depuis mars 2026 :</strong> mode créatif actif — constructions titanesques, redstone libre, projets artistiques.</p>
+      <div class="timeline-note">✦ Un seul et même monde depuis novembre 2025, bascule créative en mars 2026. ✦</div>
+      <div style="margin-top: 1rem;"><span class="date-chip">📅 survie : nov.2025 → mars2026</span> <span class="date-chip">🎨 créatif : depuis mars 2026</span></div>
+    </div>
   </div>
-</div>
 
-<!-- BIO -->
-<div id="bio" class="hidden bio-card w-full max-w-md text-center text-white shadow-2xl border border-white/20 overflow-y-auto flex flex-col items-center">
-  <img src="https://i.imgur.com/KAlQ1zn.png" alt="header" class="w-full rounded-2xl mb-2.5 shadow-lg">
-  <h1 class="text-xl font-bold text-white mb-1.5 drop-shadow-lg" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">Damoko</h1>
-  <p class="text-xs text-white/95 mb-3 leading-relaxed font-medium" style="text-shadow: 1px 1px 6px rgba(0,0,0,0.9);">
-    Salut moi c'est <b class="text-amber-300">Damoko</b>,<br>
-    un youtubeur et joueur Minecraft !
-  </p>
-  <div class="space-y-2 w-full">
-    <a href="https://www.youtube.com/@damoko_off" target="_blank" class="block bg-white/25 backdrop-blur-sm text-white font-semibold text-xs py-2 px-4 rounded-xl hover:bg-white/40 hover:scale-105 transition-all duration-300 shadow-lg border border-white/30">📺 Chaîne YouTube</a>
-    <button onclick="openDiscordModal()" class="w-full bg-white/25 backdrop-blur-sm text-white font-semibold text-xs py-2 px-4 rounded-xl hover:bg-white/40 hover:scale-105 transition-all duration-300 shadow-lg border border-white/30">💬 Discord</button>
+  <!-- DAMOKO SMP -->
+  <div class="section">
+    <h2>⚡ DAMOKO SMP ⚡</h2>
+    <div class="smp-card">
+      <div class="smp-text">
+        <h3>🔮 Survie communautaire en équipe</h3>
+        <p><span class="smp-badge">PVP désactivé</span> <span class="smp-badge">Entraide & coopération</span></p>
+        <p>Le <strong>Damoko SMP</strong> est un serveur <strong>survie</strong> où la communauté jouera <strong>avec moi en équipe</strong>. Pas de compétition toxique, on construit, on explore, on farm ensemble. Le PvP est totalement désactivé pour privilégier l'entraide et la bonne ambiance.</p>
+        <p style="font-size:0.85rem; margin-top:0.8rem;">✧ candidature complète — merci de renseigner tes disponibilités ✧</p>
+      </div>
+      <button id="openSmpModalBtn" class="btn btn-primary btn-smp" style="background:#0ff; color:#000; font-weight:800;">📋 CANDIDATER →</button>
+    </div>
   </div>
-  <button onclick="backToMenu()" class="mt-4 px-4 py-2 bg-white/20 rounded-xl hover:bg-white/40 transition text-white">⬅ Retour</button>
-</div>
 
-<!-- Discord modal -->
-<div id="discord-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4" onclick="closeDiscordModal(event)">
-  <div class="bg-black/60 backdrop-blur-xl p-8 rounded-3xl max-w-md w-full text-center shadow-2xl border border-white/30 transform transition-all relative" onclick="event.stopPropagation()">
-    <div class="text-6xl mb-4">💬</div>
-    <h2 class="text-2xl font-bold text-white mb-4" style="text-shadow: 2px 2px 8px rgba(0,0,0,0.8);">Discord</h2>
-    <p class="text-lg text-white/95 mb-6 font-medium" style="text-shadow: 1px 1px 6px rgba(0,0,0,0.9);">
-      Mon discord est : <span class="text-indigo-300 font-bold cursor-pointer hover:text-indigo-200 transition-colors" onclick="copyDiscord(event)">damoko_off</span>
-    </p>
-    <div id="copy-toast" class="hidden absolute top-4 left-1/2 transform -translate-x-1/2 bg-green-500 text-white px-6 py-3 rounded-lg shadow-xl font-semibold">✓ Copié !</div>
-    <button onclick="closeDiscordModal(event)" class="bg-white/25 backdrop-blur-sm text-white font-semibold py-3 px-8 rounded-xl hover:bg-white/40 transition-all duration-300 shadow-lg border border-white/30">Fermer</button>
+  <!-- MODAL AVEC TOUTES LES QUESTIONS -->
+  <div id="smpModal" class="modal">
+    <div class="modal-content">
+      <h3>📝 Candidature DAMOKO SMP</h3>
+      <form id="smpForm">
+        <div class="form-group"><label>🔹 Pseudo Minecraft (IGN) *</label><input type="text" id="ign" required placeholder="ex: Damoko_"></div>
+        <div class="form-group"><label>🔹 Âge *</label><input type="number" id="age" required min="13" placeholder="13+"></div>
+        
+        <!-- Menu déroulant type de joueur -->
+        <div class="form-group"><label>🔹 Type de joueur *</label>
+          <select id="playerType" required>
+            <option value="">Sélectionne ton profil</option>
+            <option value="Redstoneur">⚡ Redstoneur</option>
+            <option value="Builder">🏗️ Builder</option>
+            <option value="Farmer">🌾 Farmer</option>
+          </select>
+        </div>
+
+        <!-- Disponibilités par jour avec heure -->
+        <div class="form-group"><label>📅 Disponibilités (sélectionne les jours où tu peux jouer et indique la durée / créneau)</label>
+          <div id="availabilityContainer" class="days-container"></div>
+          <small style="color:#aaa">Clique sur un jour pour l'activer, puis entre ton temps disponible (ex: "2h en soirée" ou "20h-22h")</small>
+        </div>
+
+        <div class="form-group"><label>💬 Message au staff (optionnel)</label><textarea id="staffMessage" rows="3" placeholder="Une petite info, question, ou remarque..."></textarea></div>
+        <div class="form-group"><label>📌 Pourquoi veux-tu rejoindre le SMP ? *</label><input type="text" id="reason" required placeholder="créativité, bonne ambiance..."></div>
+        
+        <div class="modal-buttons"><button type="button" id="closeModalBtn" class="btn close-modal">Annuler</button><button type="submit" id="submitSmpBtn" class="btn submit-btn">Envoyer ma candidature</button></div>
+      </form>
+    </div>
   </div>
-</div>
 
-<!-- JEU -->
-<div id="game" class="hidden game-card flex flex-col items-center">
-  <canvas id="gameCanvas" width="360" height="220"></canvas>
-  <p class="text-white text-sm mt-2 opacity-80">Espace ou Flèche Haut pour sauter</p>
-  <div id="leaderboard"></div>
-  <button onclick="backToMenu()" class="mt-3 px-4 py-2 bg-white/20 rounded-xl hover:bg-white/40 transition text-white">⬅ Retour</button>
+  <!-- WIDGET DISCORD -->
+  <div class="section">
+    <h2>💬 Communauté Discord</h2>
+    <div class="discord-widget-container">
+      <iframe src="https://discord.com/widget?id=1496773617646829590&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+    </div>
+    <div class="footer-note" style="margin-top: 1rem;">Rejoins le serveur pour échanger, suivre l'avancement du SMP et jouer avec nous !</div>
+  </div>
+
+  <!-- Vidéo soon -->
+  <div class="section">
+    <h2>🎥 prochaines vidéos · soon</h2>
+    <div class="video-grid">
+      <div class="soon-card"><div class="soon-icon">⏳</div><div class="soon-glow">SOON</div><div class="soon-sub">épisode créatif</div><div style="margin-top:1rem; font-size:0.75rem;">préparation</div></div>
+      <div class="soon-card"><div class="soon-icon">🏗️</div><div class="soon-glow">À VENIR</div><div class="soon-sub">build colossal</div><div style="margin-top:1rem; font-size:0.75rem;">long format</div></div>
+      <div class="soon-card"><div class="soon-icon">🎞️</div><div class="soon-glow">EDITING</div><div class="soon-sub">gameplay & créativité</div><div style="margin-top:1rem; font-size:0.75rem;">bientôt</div></div>
+    </div>
+    <div class="footer-note">⏁ aucune vidéo longue encore sortie — contenu à venir.</div>
+  </div>
+
+  <!-- Bloc historique -->
+  <div class="section">
+    <h2>📅 repères & duo</h2>
+    <div class="history-block"><p>🔹 Découverte Minecraft en <strong class="highlight">2018</strong>.<br>🔹 Monde survie avec <strong class="highlight">slayer_god104</strong> : nov.2025.<br>🔹 <strong class="highlight">Mars 2026</strong> : passage en créatif.<br>🔹 Petit YouTubeur, projets authentiques.</p></div>
+  </div>
+  <div class="footer"><p>Damoko · survie (2025→2026) puis créatif avec slayer_god104 · découverte MC en 2018</p></div>
 </div>
+<div id="copyToast" class="copy-notify">✅ envoyé !</div>
 
 <script>
-/* NAVIGATION */
-const menu=document.getElementById("menu");
-const bio=document.getElementById("bio");
-const game=document.getElementById("game");
-const lb=document.getElementById("leaderboard");
-
-/* Toggle Jour/Nuit */
-let isDay=true;
-function toggleTheme(){
-  const body=document.body;
-  const toggleCircle=document.getElementById('toggle-circle');
-  const toggleButton=document.getElementById('toggle-button');
-  isDay=!isDay;
-  if(!isDay){
-    body.classList.add('dark-mode');
-    toggleCircle.style.transform='translateX(32px)';
-    toggleCircle.textContent='🌙';
-    toggleButton.style.background='linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)';
-  } else {
-    body.classList.remove('dark-mode');
-    toggleCircle.style.transform='translateX(0)';
-    toggleCircle.textContent='☀';
-    toggleButton.style.background='linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%)';
+  const WEBHOOK_URL = "https://discord.com/api/webhooks/1503678723747221546/cBcgKp6VuTiTypArmr4LdFjsW_-g9qy28PbKrAQYiJs2vEZSWVven4rCyB542bSxxQdn";
+  
+  // Bouton YouTube principal
+  const youtubeMain = document.getElementById('youtubeMain');
+  if(youtubeMain) {
+    youtubeMain.href = "https://www.youtube.com/@damoko_off";
+    youtubeMain.target = "_blank";
   }
-}
+  // Bouton S'ABONNER (lien direct avec subscription)
+  const subscribeBtn = document.getElementById('subscribeBtn');
+  if(subscribeBtn) {
+    subscribeBtn.href = "https://www.youtube.com/@damoko_off?sub_confirmation=1";
+    subscribeBtn.target = "_blank";
+  }
+  
+  const discordBtn = document.getElementById('discordMain');
+  if(discordBtn) {
+    discordBtn.href = "https://discord.gg/z83HtPnFW3";
+    discordBtn.target = "_blank";
+  }
 
-/* Discord functions */
-function copyDiscord(e){
-  e.stopPropagation();
-  navigator.clipboard.writeText('damoko_off').then(()=>{
-    const toast=document.getElementById('copy-toast');
-    toast.classList.remove('hidden');
-    setTimeout(()=>{toast.classList.add('hidden');},2000);
+  // Génération dynamique des jours avec time input
+  const daysOfWeek = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+  let availabilityData = {};
+
+  function buildDaysContainer() {
+    const container = document.getElementById('availabilityContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    daysOfWeek.forEach(day => {
+      const dayDiv = document.createElement('div');
+      dayDiv.className = 'day-card';
+      dayDiv.setAttribute('data-day', day);
+      const dayNameSpan = document.createElement('div');
+      dayNameSpan.className = 'day-name';
+      dayNameSpan.innerText = day;
+      const timeDiv = document.createElement('div');
+      timeDiv.className = 'time-input';
+      const timeInput = document.createElement('input');
+      timeInput.type = 'text';
+      timeInput.placeholder = "durée / horaire";
+      timeInput.disabled = true;
+      timeInput.addEventListener('click', (e) => e.stopPropagation());
+      timeInput.addEventListener('input', (e) => {
+        if (dayDiv.classList.contains('selected')) {
+          availabilityData[day] = e.target.value;
+        }
+      });
+      timeDiv.appendChild(timeInput);
+      dayDiv.appendChild(dayNameSpan);
+      dayDiv.appendChild(timeDiv);
+      dayDiv.addEventListener('click', (e) => {
+        if (e.target === timeInput) return;
+        dayDiv.classList.toggle('selected');
+        const isSelected = dayDiv.classList.contains('selected');
+        timeInput.disabled = !isSelected;
+        if (isSelected) {
+          if (availabilityData[day]) timeInput.value = availabilityData[day];
+          else timeInput.value = "";
+        } else {
+          delete availabilityData[day];
+          timeInput.value = "";
+        }
+      });
+      container.appendChild(dayDiv);
+    });
+  }
+  buildDaysContainer();
+
+  // modal
+  const modal = document.getElementById('smpModal');
+  const openBtn = document.getElementById('openSmpModalBtn');
+  const closeBtn = document.getElementById('closeModalBtn');
+  const form = document.getElementById('smpForm');
+  const submitBtn = document.getElementById('submitSmpBtn');
+
+  function openModal() { modal.style.display = 'flex'; }
+  function closeModal() { modal.style.display = 'none'; form.reset(); availabilityData = {}; buildDaysContainer(); }
+
+  openBtn?.addEventListener('click', openModal);
+  closeBtn?.addEventListener('click', closeModal);
+  modal?.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+  async function sendToWebhook(payload) {
+    try {
+      const response = await fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      return response.ok;
+    } catch { return false; }
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const ign = document.getElementById('ign').value.trim();
+    const age = document.getElementById('age').value.trim();
+    const playerType = document.getElementById('playerType').value;
+    const reason = document.getElementById('reason').value.trim();
+    const staffMsg = document.getElementById('staffMessage').value.trim();
+
+    // Récupérer dispos sélectionnées
+    const selectedDays = [];
+    for (let day of daysOfWeek) {
+      const input = document.querySelector(`.day-card[data-day="${day}"] .time-input input`);
+      const card = document.querySelector(`.day-card[data-day="${day}"]`);
+      if (card && card.classList.contains('selected') && input && input.value.trim() !== "") {
+        selectedDays.push(`${day} : ${input.value.trim()}`);
+      } else if (card && card.classList.contains('selected')) {
+        selectedDays.push(`${day} : (aucun horaire indiqué)`);
+      }
+    }
+    const availability = selectedDays.length ? selectedDays.join("\n") : "Aucune disponibilité renseignée";
+
+    if (!ign || !age || !playerType || !reason) {
+      alert('Veuillez remplir tous les champs obligatoires (pseudo, âge, type de joueur, motivation).');
+      return;
+    }
+    if (parseInt(age) < 13) { alert('Âge minimum : 13 ans'); return; }
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="loader"></span> Envoi...';
+
+    const embed = {
+      title: '✨ Nouvelle candidature DAMOKO SMP',
+      color: 0x00ffff,
+      fields: [
+        { name: '🎮 Pseudo Minecraft', value: ign, inline: true },
+        { name: '📅 Âge', value: age, inline: true },
+        { name: '🎭 Type de joueur', value: playerType, inline: true },
+        { name: '📅 Disponibilités (jour / temps)', value: availability.substring(0, 800), inline: false },
+        { name: '📝 Motivation', value: reason.substring(0, 450), inline: false }
+      ],
+      footer: { text: 'Candidature SMP · PvP désactivé · coopération' },
+      timestamp: new Date().toISOString()
+    };
+    if (staffMsg) {
+      embed.fields.push({ name: '💬 Message au staff', value: staffMsg.substring(0, 400), inline: false });
+    }
+
+    const success = await sendToWebhook({ embeds: [embed] });
+    submitBtn.disabled = false;
+    if (success) {
+      alert('✅ Candidature envoyée ! L\'équipe te répondra sous peu.');
+      closeModal();
+      const toast = document.getElementById('copyToast');
+      toast.textContent = "Candidature reçue !";
+      toast.style.opacity = "1";
+      setTimeout(() => toast.style.opacity = "0", 2500);
+    } else {
+      alert('❌ Erreur lors de l\'envoi. Réessaie plus tard ou contacte le staff.');
+    }
+    submitBtn.innerHTML = 'Envoyer ma candidature';
   });
-}
-function openDiscordModal(){ document.getElementById('discord-modal').classList.remove('hidden'); document.getElementById('discord-modal').classList.add('flex'); }
-function closeDiscordModal(e){ e.stopPropagation(); const m=document.getElementById('discord-modal'); m.classList.add('hidden'); m.classList.remove('flex'); }
-
-/* NAVIGATION */
-function openBio(){ menu.classList.add("hidden"); bio.classList.remove("hidden"); }
-function openGame(){ menu.classList.add("hidden"); game.classList.remove("hidden"); reset(); loop(); }
-function backToMenu(){ bio.classList.add("hidden"); game.classList.add("hidden"); menu.classList.remove("hidden"); }
-
-/* ===== JEU MC ===== */
-const canvas=document.getElementById("gameCanvas");
-const ctx=canvas.getContext("2d");
-let player={x:40,y:150,w:20,h:28,vy:0,jump:false};
-let blocks=[];
-let score=0,dead=false;
-const gravity=0.6;
-const jumpPower=-8;
-let speed=4;
-
-/* SPAWN BLOC VARIÉ */
-function spawnBlock(){
-  if(dead) return;
-  const types=[{w:20,h:20},{w:30,h:20},{w:15,h:15},{w:40,h:20}];
-  const b=types[Math.floor(Math.random()*types.length)];
-  blocks.push({x:360,y:158,w:b.w,h:b.h});
-}
-setInterval(spawnBlock,1200);
-
-/* RESET */
-function reset(){
-  blocks=[];
-  score=0;
-  dead=false;
-  speed=4;
-  player.y=150;
-  player.vy=0;
-  displayLeaderboard(getLeaderboard());
-}
-
-/* DRAW */
-function drawGround(){ ctx.fillStyle="#22c55e"; ctx.fillRect(0,180,360,10); ctx.fillStyle="#92400e"; ctx.fillRect(0,190,360,30);}
-function drawPlayer(){ ctx.fillStyle="#facc15"; ctx.fillRect(player.x,player.y,20,12); ctx.fillStyle="#2563eb"; ctx.fillRect(player.x,player.y+12,20,16);}
-function drawBlock(b){ ctx.fillStyle="#16a34a"; ctx.fillRect(b.x,b.y,b.w,b.h); ctx.fillStyle="#14532d"; ctx.fillRect(b.x,b.y+12,b.w,8);}
-
-/* LEADERBOARD */
-function getLeaderboard(){ return JSON.parse(localStorage.getItem("mcLeaderboard")||"[]"); }
-function updateLeaderboard(s){ let lbData=getLeaderboard(); lbData.push(s); lbData.sort((a,b)=>b-a); lbData=lbData.slice(0,5); localStorage.setItem("mcLeaderboard",JSON.stringify(lbData)); displayLeaderboard(lbData);}
-function displayLeaderboard(data){ if(!lb) return; lb.innerHTML="<b>Leaderboard:</b><br>"+data.map((v,i)=>`${i+1}. ${v}`).join("<br>"); }
-
-/* LOOP */
-let lastTime=0;
-function loop(timestamp){
-  if(!lastTime) lastTime=timestamp;
-  const delta=timestamp-lastTime;
-  ctx.clearRect(0,0,360,220);
-  drawGround();
-  drawPlayer();
-  player.vy+=gravity;
-  player.y+=player.vy;
-  if(player.y>=150){ player.y=150; player.jump=false; }
-  blocks.forEach(b=>{ b.x-=speed; drawBlock(b); if(player.x<b.x+b.w && player.x+player.w>b.x && player.y<b.y+b.h && player.y+player.h>b.y){ dead=true; }});
-  blocks=blocks.filter(b=>b.x>-30);
-
-  // score par seconde
-  if(!dead && delta>0){ score+=(delta/1000); lastTime=timestamp; }
-  ctx.fillStyle="#000"; ctx.font="14px Arial"; ctx.fillText("Score: "+Math.floor(score),10,20);
-  if(!dead && score>0) speed=4+Math.floor(score/10);
-  if(dead){ ctx.fillStyle="rgba(0,0,0,.6)"; ctx.fillRect(0,0,360,220); ctx.fillStyle="#fff"; ctx.font="20px Arial"; ctx.fillText("GAME OVER",110,110); ctx.font="12px Arial"; ctx.fillText("Clique pour rejouer",120,130); updateLeaderboard(Math.floor(score)); return; }
-  requestAnimationFrame(loop);
-}
-
-/* CONTROLES */
-window.addEventListener("keydown",e=>{ if((e.code==="Space" || e.code==="ArrowUp") && !player.jump){ player.vy=jumpPower; player.jump=true; }});
-canvas.addEventListener("click",()=>{ if(dead){ reset(); loop(); return; } if(!player.jump){ player.vy=jumpPower; player.jump=true; } });
 </script>
-
 </body>
 </html>
